@@ -1,0 +1,59 @@
+<view class="friends-page">
+  <!-- 自定义状态栏 -->
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+  </view>
+
+  <!-- 顶部标题 + 设置 -->
+  <view class="fl-header">
+    <text class="page-title-cn">分享我们的</text>
+    <text class="page-title-en">LITTLE MOMENTS</text>
+    <view class="fl-setting" bindtap="onSettings"><text class="gear">⚙️</text></view>
+  </view>
+
+  <!-- 动态大卡片区 -->
+  <view class="feature-area">
+    <!-- 有新动态 -->
+    <view class="feature-card" wx:if="{{hasNew}}" bindtap="onOpenCalendar">
+      <image wx:if="{{feature.photo}}" class="feature-photo-img" src="{{feature.photo}}" mode="aspectFill"></image>
+      <view wx:else class="feature-photo"></view>
+      <text class="feature-date hand">{{feature.date}}</text>
+      <view class="feature-overlay">
+        <view class="feature-name">{{feature.name}}</view>
+        <view class="feature-cap hand">{{feature.cap}}</view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="feature-card empty" wx:else bindtap="onOpenCalendar">
+      <view class="empty-inner">
+  <image class="friend-none" src="/assets/friend-none.png" mode="aspectFit"></image>
+  <view class="empty-text">或许此刻你想{{'\n'}}上传点什么给你朋友呢~  </view>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 朋友栏 -->
+  <view class="friend-bar-label">朋友列表</view>
+  <scroll-view class="friend-bar" scroll-x>
+    <view
+      class="friend-chip {{item.left ? 'left' : ''}}"
+      wx:for="{{friends}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onFriendTap"
+    >
+    <view class="avatar">
+  <image wx:if="{{item.avatar}}" src="{{item.avatar}}" mode="aspectFill" class="avatar-img"></image>
+  <text wx:else class="avatar-emoji">{{item.emoji}}</text>
+  <view class="chip-dot" wx:if="{{item.dot}}"></view>
+</view>
+<text class="chip-name">{{item.name}}</text></view>
+
+    <!-- 添加朋友 -->
+    <view class="friend-chip add" bindtap="onAddFriend">
+      <view class="avatar"><text class="avatar-emoji">＋</text></view>
+      <text class="chip-name">添加</text>
+    </view>
+  </scroll-view>
+</view>

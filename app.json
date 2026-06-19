@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/guide/guide",
+    "pages/friends/friends",
+    "pages/calendar/calendar",
+    "pages/photoday/photoday",
+    "pages/upload/upload",
+    "pages/addfriend/addfriend",
+    "pages/settings/settings",
+    "pages/delfriend/delfriend"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "share spring",
+    "backgroundColor": "#f5faf6"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

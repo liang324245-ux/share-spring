@@ -1,0 +1,51 @@
+<view class="guide-page">
+  <!-- 自定义状态栏 -->
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+  </view>
+
+  <!-- 顶部标题 -->
+  <view class="page-head">
+    <view class="head-en">WELCOME TO</view>
+    <view class="head-cn hand">我们的小世界</view>
+  </view>
+
+  <!-- 卡片轮播：可左右滑动 -->
+  <swiper
+    class="guide-swiper"
+    current="{{current}}"
+    bindchange="onSwiperChange"
+    duration="350"
+    circular="{{false}}"
+  >
+    <swiper-item wx:for="{{cards}}" wx:key="id">
+      <view class="card">
+        <image
+          class="illus"
+          src="{{item.img}}"
+          mode="aspectFit"
+          style="width:{{item.w}}rpx; height:{{item.h}}rpx;"
+        ></image>
+        <view class="card-text hand">
+          <view wx:for="{{item.text}}" wx:for-item="line" wx:key="*this">{{line}}</view>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 自定义圆点指示器 -->
+  <view class="dots">
+    <view
+      wx:for="{{cards}}"
+      wx:key="id"
+      class="dot {{index === current ? 'on' : ''}}"
+      data-i="{{index}}"
+      bindtap="onDotTap"
+    ></view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="nav-row">
+    <text class="g-skip" bindtap="onSkip">跳过</text>
+    <view class="g-btn" bindtap="onNext">{{ current === cards.length - 1 ? '开始使用' : '下一个' }}</view>
+  </view>
+</view>

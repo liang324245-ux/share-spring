@@ -1,0 +1,120 @@
+.del-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(165deg, #d5eae5 20%, #f5d0c4 80%);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.del-topbar {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 36rpx;
+  margin-top: 80rpx;
+  flex-shrink: 0;
+}
+.back { font-size: 86rpx; color: #999; width: 56rpx; }
+
+.del-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx;
+  box-sizing: border-box;
+}
+.del-avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2rpx solid #ecdada;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  margin-right: 28rpx;
+  overflow: hidden;
+}
+.del-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.del-avatar-fallback {
+  font-size: 72rpx;
+  color: #c99;
+  font-weight: 500;
+}
+.del-q {
+  font-size: 40rpx;
+  color: #6a4e4e;
+  margin-top: 44rpx;
+  text-align: center;
+}
+
+.del-choice { width: 100%; margin-top: 64rpx; }
+.del-choice-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 36rpx;
+  padding: 36rpx 40rpx;
+  margin-bottom: 20rpx;
+  border: 3rpx solid transparent;
+  transition: 0.15s;
+}
+.del-choice-item.selected {
+  border-color: #4caf72;
+  background: rgba(255, 255, 255, 0.95);
+}
+.choice-radio {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 4rpx solid #ccc;
+  flex-shrink: 0;
+  margin-top: 4rpx;
+  transition: 0.15s;
+}
+.del-choice-item.selected .choice-radio {
+  border-color: #4caf72;
+  background: radial-gradient(#4caf72 42%, transparent 46%);
+}
+.choice-title { font-size: 36rpx; color: #5a4a4a; }
+.choice-title.danger { color: #e57373; }
+.choice-desc { font-size: 29rpx; color: #aa9a9a; margin-top: 15rpx; line-height: 1.55; }
+
+.del-buttons { width: 100%; margin-top: auto; padding-bottom: 40rpx; }
+.del-confirm {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background: #e57373;
+  border-radius: 50rpx;
+  color: #fff;
+  font-size: 34rpx;
+  letter-spacing: 4rpx;
+  box-shadow: 0 6px 18px rgba(229, 115, 115, 0.3);
+  margin-bottom: 60rpx;
+}
+.del-confirm:active { transform: scale(0.98); }
+.del-cancel {
+  height: 100rpx;
+  line-height: 0rpx;
+  text-align: center;
+  color: #a89a9a;
+  font-size: 32rpx;
+  margin-bottom: 38rpx;
+}
+
+/* B1 清理模式的说明文字 */
+.del-cleanup-desc {
+  font-size: 28rpx;
+  color: #999;
+  line-height: 1.7;
+  text-align: center;
+  padding: 24rpx 50rpx 48rpx;
+}

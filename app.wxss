@@ -1,0 +1,48 @@
+/* ===== 全局样式 ===== */
+page {
+  /* 主题色变量（rpx 适配） */
+  --brand: #4caf72;
+  --brand-deep: #3a8c5f;
+  background: #f5faf6;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  box-sizing: border-box;
+}
+
+view, text, input, textarea, scroll-view {
+  box-sizing: border-box;
+}
+
+/* 手写字体类：原型用了 STXingkai/华文行楷。
+   小程序不内置这些字体，这里先回退到系统字体跑通。
+   后续可用 wx.loadFontFace 加载自定义字体文件后替换。 */
+.hand {
+  font-family: "STXingkai", "华文行楷", "KaiTi", "楷体", "STKaiti", cursive,
+    -apple-system, "PingFang SC", sans-serif;
+}
+
+/* ===== 通用状态栏 =====
+   原型里是模拟的 9:41 📶 🔋。
+   真机/开发者工具有真实系统状态栏，这里我们用一个占位条
+   占住状态栏高度，避免内容被刘海遮挡。 */
+.status-bar {
+  height: 88rpx;            /* 约等于状态栏+一点留白 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  padding-top: env(safe-area-inset-top);
+}
+.status-bar.light {
+  color: #fff;
+}
+
+/* 通用页面容器：占满整屏 */
+.page-root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

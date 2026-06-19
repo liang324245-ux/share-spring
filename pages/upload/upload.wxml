@@ -1,0 +1,45 @@
+<view class="up-page">
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+  </view>
+
+  <!-- 顶部 -->
+  <view class="up-topbar">
+    <text class="up-cancel" bindtap="onCancel">取消</text>
+    <text class="up-title">上传照片</text>
+    <text class="up-spacer"></text>
+  </view>
+
+  <scroll-view class="up-scroll" scroll-y>
+    <!-- 选择照片 -->
+    <view class="section">
+      <view class="section-label">选择照片</view>
+      <view class="up-grid">
+        <view class="up-photo-wrap" wx:for="{{photos}}" wx:key="*this" wx:for-item="ph">
+          <image class="up-photo" src="{{ph}}" mode="aspectFill"></image>
+          <text class="up-del" data-i="{{index}}" catchtap="onDelPhoto">×</text>
+        </view>
+        <!-- 添加按钮 -->
+        <view class="add-photo" bindtap="onAddPhoto" wx:if="{{photos.length < 9}}">＋</view>
+      </view>
+      <view class="hint">已选 {{photos.length}} 张</view>
+    </view>
+
+    <!-- 拍摄日期 -->
+    <view class="section">
+      <view class="section-label">拍摄日期</view>
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="date-pick">{{date}} ›</view>
+      </picker>
+    </view>
+
+    <!-- 文案 -->
+    <view class="section">
+      <view class="section-label">添加文案（可选）</view>
+      <textarea class="cap-input" placeholder="想说说你此刻的心情嘛..." value="{{caption}}" bindinput="onCaptionInput" maxlength="200"></textarea>
+      <view class="cap-count">{{caption.length}}/200</view>
+    </view>
+
+    <!-- 分享按钮 -->
+    <view class="publish-btn" bindtap="onPublish">立即分享</view>
+  </scroll-view>
+</view>

@@ -1,0 +1,233 @@
+.friends-page {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #f4faf5 0%, #eaf5ec 50%, #dceede 100%);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 顶部标题栏 */
+.fl-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24rpx 44rpx 20rpx;
+  margin-top: 60rpx;   /* 新增：整行下移，避开微信胶囊 */
+  flex-shrink: 0;
+}
+.page-title-cn {
+  font-size: 42rpx;
+  color: #39865c;
+  font-weight: 600;
+  font-family:  "PingFang SC", serif; 
+  margin-bottom: 28rpx;
+  margin-top: -35rpx;
+  margin-left: 5rpx; 
+}
+.page-title-en {
+  display: block;
+  text-align: left;
+  font-size: 35rpx;
+  color: #3a8c5f;
+  font-weight: 550; 
+  margin-top: 20rpx;
+  margin-left: -500rpx;
+}
+.fl-setting {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gear { font-size: 48rpx; }
+.fl-setting:active .gear { transform: scale(0.9); }
+
+/* 动态卡片区 */
+.feature-area {
+  padding: 12rpx 36rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.feature-card {
+  height: 920rpx;          
+  border-radius: 52rpx;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #ffe0e0, #ffe9c7 45%, #d3f0d8);
+  box-shadow: 0 10px 30px rgba(76, 175, 114, 0.15);
+  transition: transform 0.15s;
+}
+.feature-card:active { transform: scale(0.985); }
+
+/* 照片占位 / 真实图 */
+.feature-photo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ffd3c4, #ffeaa7 50%, #c8e6c9);
+}
+.feature-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 日期角标 */
+.feature-date {
+  position: absolute;
+  top: 20rpx;
+  right: 10rpx;
+  color: #19a784;
+  font-size: 50rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 28rpx;
+  z-index: 3rpx;
+}
+
+/* 底部信息遮罩 */
+.feature-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.45));
+  padding: 100rpx 44rpx 44rpx;
+  color: #fff;
+}
+.feature-tag {
+  font-size: 38rpx;
+  opacity: 0.9;
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+.live-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #ff6b6b;
+  box-shadow: 0 0 0 8rpx rgba(255, 107, 107, 0.3);
+}
+.feature-name {
+  font-size: 48rpx;
+  font-weight: 600;
+}
+.feature-cap {
+  font-size: 30rpx;
+  opacity: 0.92;
+  margin-top: 12rpx;
+  line-height: 1.5;
+  font-family: "PingFang SC";
+}
+
+/* 空状态卡片 */
+.feature-card.empty {
+  background: linear-gradient(135deg, #eaf6ee, #e0f0d8);
+}
+.empty-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 80rpx;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 110rpx;
+  margin-bottom: 36rpx;
+  opacity: 0.85;
+}
+.empty-illus {
+  width: 240rpx;          /* 插画宽，按需调 */
+  height: 240rpx;         /* 插画高 */
+  margin-bottom: 36rpx;   /* 和下面文字的间距 */
+}
+.empty-text {
+  font-size: 38rpx;
+  color: #5a8c6e;
+  line-height: 1.6;
+  white-space: pre-line;   /* 让 \n 换行生效 */
+}
+
+
+/* 朋友栏 */
+.friend-bar-label {
+  font-size: 28rpx;
+  color: #7a9586;
+  padding: 20rpx 44rpx 26rpx;
+  flex-shrink: 0;
+}
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.friend-bar {
+  white-space: nowrap;
+  padding: 0 44rpx 60rpx;
+  flex-shrink: 0;
+}
+.friend-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 144rpx;
+  margin-right: 40rpx;
+  vertical-align: top;
+}
+.friend-chip .avatar {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a8e6c0, #d4f0b0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(76, 175, 114, 0.15);
+  position: relative;
+  transition: transform 0.15s;
+}
+.avatar-emoji { font-size: 66rpx; }
+.friend-chip:active .avatar { transform: scale(0.92); }
+.chip-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32rpx;
+  height: 32rpx;
+  background: #ff6b6b;
+  border-radius: 50%;
+  border: 4rpx solid #eaf6ee;
+}
+.chip-name {
+  font-size: 26rpx;
+  color: #5a7565;
+  margin-top: 16rpx;
+  max-width: 144rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+/* 添加按钮 */
+.friend-chip.add .avatar {
+  background: rgba(76, 175, 114, 0.12);
+  color: #4caf72;
+  border: 3rpx dashed rgba(76, 175, 114, 0.4);
+  box-shadow: none;
+}
+.friend-chip.add .avatar-emoji { color: #4caf72; font-size: 72rpx; }
+/* 已离开的朋友（灰色） */
+.friend-chip.left .avatar {
+  background: linear-gradient(135deg, #d8d8d8, #c8c8c8);
+  filter: grayscale(1);
+  box-shadow: none;
+  opacity: 0.75;
+}
+.friend-chip.left .chip-name { color: #aaa; }

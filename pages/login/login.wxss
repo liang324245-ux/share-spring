@@ -1,0 +1,91 @@
+/* ===== 登录页 ===== */
+.login .bg-img {
+  position: absolute;
+  top: 12rpx;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.login .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.login .login-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 100rpx;
+  /* 原型靠 phone 容器居中，这里页面级垂直居中 */
+  flex: 1;
+  justify-content: center;
+}
+
+.title-img {
+  width: 550rpx;          /* 控制这句话的整体大小，按需调 */
+  margin-bottom: 40rpx;  /* 沿用原来的下方留白 */
+}
+
+.subtitle {
+  font-family:  "STKaiti","KaiTi", "楷体", serif;  
+  display: flex;
+  flex-direction: column;        /* 两行竖排 */
+  align-items: center;           /* 居中 */
+  font-size: 45rpx;              /* 字号，按需调 */
+  color: rgb(3, 46, 32);  /* 颜色+透明度，最后的 0.6 控制深浅 */
+  line-height: 1.7;
+  margin-bottom: 140rpx;
+  margin-top: 5rpx;
+  margin-left: 20rpx;
+  text-shadow: 0 4rpx 12rpx rgba(255, 255, 255, 0.5);
+  animation: subFloat 1.2s ease-in-out 0.3s 3 both;
+}
+
+@keyframes subFloat {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-5rpx); }
+  100% { transform: translateY(0); }
+}
+
+.login .name-input {
+  width: 480rpx;
+  height: 90rpx;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1rpx solid rgba(255, 255, 255, 0.85);
+  border-radius: 40rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #4a4a4a;
+  margin-bottom: 48rpx;
+}
+
+.name-placeholder {
+  color: rgba(90, 90, 90, 0.55);
+}
+
+.login .enter-btn {
+  width: 280rpx;
+  height: 78rpx;
+  line-height: 78rpx;
+  text-align: center;
+  background: #4caf72;
+  border-radius: 39rpx;
+  font-size: 35rpx;
+  margin-left:10rpx;
+  color: #e8efeb;
+  letter-spacing: 6rpx;
+  padding-left: 6rpx;
+  box-shadow: 0 8rpx 28rpx rgba(76, 175, 114, 0.35);
+  font-family: "sans-serif";
+}
+.login .enter-btn:active {
+   transform: scale(0.97);
+}

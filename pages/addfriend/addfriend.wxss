@@ -1,0 +1,97 @@
+.af-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(160deg, #f5faf6 0%, #cdedde 100%);
+  box-sizing: border-box;
+}
+.af-topbar {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 36rpx;
+  margin-top: 40rpx;
+}
+.back { font-size: 90rpx; color: #999; width: 56rpx; }
+.af-title { flex: 1; text-align: center; font-size: 50rpx; color: #4a4a4a; }
+.af-spacer { width: 80rpx; }
+
+.role-tabs {
+  display: flex;
+  margin: 32rpx 36rpx;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 70rpx;
+  padding: 10rpx;
+}
+.role-tab {
+  flex: 1;
+  text-align: center;
+  height: 90rpx;
+  line-height: 86rpx;
+  font-size: 40rpx;
+  color: #999;
+  border-radius: 70rpx;
+  transition: 0.25s;
+}
+.role-tab.active { background: #4caf72; color: #fff; }
+
+.form-block {
+  margin: 54rpx 35rpx;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 36rpx;
+  padding: 110rpx 44rpx;
+}
+.form-block.recv {
+  padding: 50rpx 44rpx;       /* 比发起者小，卡片不那么高 */
+}
+.form-label.recv { margin-bottom: 40rpx;
+  margin-top: 15rpx; }
+
+.form-label { font-size: 40rpx; color: #5a5a5a; 
+  margin: 18rpx 0 20rpx;
+  margin-bottom: 30rpx;
+  margin-top: -40rpx; }
+.form-input {
+  width: 100%;
+  height: 98rpx;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 20rpx;
+  padding: 0 32rpx;
+  font-size: 30rpx;
+  color: #555;
+  box-sizing: border-box;
+  margin-bottom: 130rpx;
+}
+.radio-group { display: flex; gap: 48rpx; margin-top: 12rpx; }
+.radio-item { display: flex; align-items: center; font-size: 33rpx; color: #888; 
+margin-left:20rpx;}
+.radio-dot {
+  width: 46rpx;
+  height: 46rpx;
+  border-radius: 50%;
+  border: 4rpx solid #ccc;
+  margin-right: 20rpx;
+  margin-top: 5rpx;
+}
+.radio-item.checked { color: #395044; }
+.radio-item.checked .radio-dot {
+  border-color: #4caf72;
+  background: radial-gradient(#4caf72 40%, transparent 45%);
+}
+.action-btn {
+  margin-top: 50rpx;
+  margin-bottom: 10rpx;
+  height: 92rpx;
+  width: 350rpx;
+  line-height: 82rpx;
+  text-align: center;
+  background: #4caf72;
+  border-radius: 56rpx;
+  color: #fff;
+  font-size: 40rpx;
+  letter-spacing: 8rpx;
+  margin-left: 120rpx;
+  transform: translateY(30rpx);
+}
+.action-btn:active { transform: scale(0.86); }
+.action-btn.recv {margin-top: -80rpx;
+margin-bottom: 50rpx;}

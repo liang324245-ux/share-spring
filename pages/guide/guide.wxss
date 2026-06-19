@@ -1,0 +1,108 @@
+.guide-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #f3f8f4 10%, #e5f3e7 50%, #cde6d0 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.page-head {
+  position: absolute;
+  top: 130rpx;          /* 在状态栏下方，按需微调 */
+  left: 80rpx;
+  z-index: 10;
+}
+.head-en {
+  font-size: 25rpx;
+  color: #4caf72;
+  letter-spacing: 4rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+  margin-left: 10rpx;
+}
+.head-cn {
+  font-size: 46rpx;
+  color: #07100b;
+  font-weight: 600;
+  font-family: "PingFang SC", serif;
+}
+/* 轮播区域 */
+.guide-swiper {
+  width: 75%;
+  height: 620rpx; 
+  margin-top: -160rpx;  
+}
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20 10rpx;              /* 卡片左右留点边距，不顶到屏幕边 */
+  padding: 40rpx 10rpx;         /* 卡片内部留白 */
+  box-sizing: border-box;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.55);   /* 半透明白底 */
+  border: 1rpx solid rgba(255, 255, 255, 0.8);  /* 浅色边框 */
+  border-radius: 80rpx;         /* 圆角 */
+  box-shadow: 0 8rpx 30rpx rgba(76, 175, 114, 0.1);  /* 淡淡阴影，浮起来 */
+}
+.illus {
+  margin-top: 50rpx;  
+}
+.card-text {
+  font-size: 45rpx;
+  color: #3a8c5f;
+  line-height: 1.5;
+  font-weight: 500;
+  font-family: "PingFang SC", serif;
+  margin-top: 4rpx;
+}
+
+/* 圆点指示器 */
+.dots {
+  position: absolute;
+  bottom: 450rpx;
+  display: flex;
+  gap: 20rpx;
+  align-items: center;
+}
+.dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: rgba(58, 140, 95, 0.25);
+  transition: all 0.3s;
+}
+.dot.on {
+  background: #4caf72;
+  width: 44rpx;
+  border-radius: 8rpx;
+}
+
+/* 底部按钮 */
+.nav-row {
+  position: absolute;
+  bottom: 300rpx;
+  display: flex;
+  gap: 30rpx;
+  align-items: center;
+}
+.g-skip {
+  color: #9ab5a3;
+  font-size: 35rpx;
+}
+.g-btn {
+  padding: 14rpx 70rpx;
+  background: #4caf72;
+  border-radius: 48rpx;
+  color: #fff;
+  font-size: 35rpx;
+  letter-spacing: 5rpx;
+  box-shadow: 0 4px 14px rgba(76, 175, 114, 0.3);
+}
+.g-btn:active {
+  transform: scale(0.97);
+}

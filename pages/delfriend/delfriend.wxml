@@ -1,0 +1,51 @@
+<view class="del-page">
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+
+  </view>
+
+  <view class="del-topbar">
+    <text class="back" bindtap="onBack">‹</text>
+  </view>
+
+  <view class="del-body">
+    <view class="del-avatar">
+      <image wx:if="{{friendAvatar}}" class="del-avatar-img" src="{{friendAvatar}}" mode="aspectFill" binderror="onAvatarError"></image>
+      <text wx:else class="del-avatar-fallback">{{friendInitial}}</text>
+    </view>
+
+    <!-- B1 清理模式：对方已离开，我自己决定要不要清掉回忆 -->
+    <block wx:if="{{cleanup}}">
+      <view class="del-q">你确定要彻底删除你们的回忆吗？</view>
+      <view class="del-cleanup-desc">{{friendName || '对方'}}已经离开。删除后，你们的照片与评论将彻底消失，无法恢复。</view>
+      <view class="del-buttons">
+        <view class="del-confirm" bindtap="onConfirm">是，彻底删除</view>
+        <view class="del-cancel" bindtap="onBack">否，再留一会儿</view>
+      </view>
+    </block>
+
+    <!-- 正常删除模式：选择保留 or 彻底清除 -->
+    <block wx:else>
+      <view class="del-q">确定要离开Ta吗？</view>
+      <view class="del-choice">
+        <view class="del-choice-item {{mode === 'keep' ? 'selected' : ''}}" bindtap="onPickKeep">
+          <view class="choice-radio"></view>
+          <view class="choice-text">
+            <view class="choice-title">通知对方，并为对方保留回忆</view>
+            <view class="choice-desc">对方会收到你离开的提示，并可以选择把这些记录留在自己这边</view>
+          </view>
+        </view>
+        <view class="del-choice-item {{mode === 'clear' ? 'selected' : ''}}" bindtap="onPickClear">
+          <view class="choice-radio"></view>
+          <view class="choice-text">
+            <view class="choice-title danger">彻底清除双方回忆</view>
+            <view class="choice-desc">不通知对方，你们的照片与评论将从双方页面彻底消失，无法恢复</view>
+          </view>
+        </view>
+      </view>
+      <view class="del-buttons">
+        <view class="del-confirm" bindtap="onConfirm">确认删除</view>
+        <view class="del-cancel" bindtap="onBack">再想想</view>
+      </view>
+    </block>
+  </view>
+</view>

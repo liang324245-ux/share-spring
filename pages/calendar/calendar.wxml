@@ -1,0 +1,59 @@
+<view class="cal-page">
+  <!-- 自定义状态栏 -->
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+  </view>
+
+  <!-- 顶部：返回 + 朋友 + 垃圾桶 -->
+  <view class="topbar">
+    <text class="back" bindtap="onBack">‹</text>
+    <view class="cal-friend">
+      <text class="nm" bindtap="onEditRemark">{{friendName}}</text>
+      <text class="nm-edit" bindtap="onEditRemark">✏️</text>
+    </view>
+    <text class="spacer"></text>
+    <text class="trash" bindtap="onTrash">🗑️</text>
+  </view>
+
+  <!-- 日历卡片 -->
+  <view class="cal-card">
+    <!-- 月份导航 -->
+    <view class="month-nav">
+      <text class="arrow" bindtap="onPrevMonth">‹</text>
+      <text class="cal-ico">📅</text>
+      <text class="month-label">{{year}}年 {{month}}月</text>
+      <text class="arrow" bindtap="onNextMonth">›</text>
+    </view>
+
+    <!-- 星期行 -->
+    <view class="week-row">
+      <text class="week-cell" wx:for="{{weekHeaders}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <!-- 日期网格 -->
+    <view class="cal-grid">
+      <view
+        class="day-cell"
+        wx:for="{{cells}}"
+        wx:key="key"
+        data-day="{{item.day}}"
+        data-hasphoto="{{item.hasPhoto}}"
+        bindtap="onDayTap"
+      >
+        <view class="day-inner {{item.selected ? 'selected' : ''}}" wx:if="{{!item.empty}}">
+          <text class="day-num {{item.isUnread ? 'unread' : ''}}">{{item.day}}</text>
+          <view class="day-dot {{item.dotType}}" wx:if="{{item.dotType}}"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 图例 -->
+    <view class="legend">
+      <view class="legend-item"><view class="lg-dot yellow"></view><text>我</text></view>
+      <view class="legend-item"><view class="lg-dot blue"></view><text>朋友</text></view>
+      <view class="legend-item"><view class="lg-dot red"></view><text>未读</text></view>
+    </view>
+  </view>
+
+  <!-- 上传浮动按钮 -->
+  <view class="upload-float" bindtap="onUpload">上传照片</view>
+</view>

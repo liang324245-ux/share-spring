@@ -1,0 +1,83 @@
+<view class="pd-page">
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+
+  </view>
+
+  <!-- 顶部：只留返回箭头（方案B：日期进卡片）-->
+  <view class="pd-topbar">
+    <text class="back" bindtap="onBack">‹</text>
+  </view>
+
+  <!-- 内容滚动区 -->
+  <scroll-view class="pd-scroll" scroll-y>
+    <!-- 没有分享 -->
+    <view class="pd-empty" wx:if="{{!hasPhoto}}">这天还没有分享呢～</view>
+
+    <!-- 有分享 -->
+    <block wx:else>
+
+      <!-- 朋友/我的区块 -->
+      <view class="pd-zone" wx:for="{{zones}}" wx:key="zid" wx:for-item="zone">
+        <!-- 发布者（照片上面）-->
+        <view class="pd-zone-head">
+  <view class="avatar">
+    <image wx:if="{{zone.whoAvatar}}" src="{{zone.whoAvatar}}" mode="aspectFill" style="width:100%;height:100%;border-radius:50%;"></image>
+    <text wx:else>{{zone.whoEmoji}}</text>
+  </view>
+  <text class="pd-zone-who">{{zone.who}}</text>
+  <!-- 如果你日期在这行，保留它 -->
+</view>
+
+        <!-- 照片网格 -->
+        <view class="pd-grid {{zone.photos.length === 1 ? 'single' : ''}}">
+          <view
+            class="pd-photo"
+            wx:for="{{zone.photos}}"
+            wx:for-item="ph"
+            wx:key="*this"
+            data-zid="{{zone.zid}}"
+            data-src="{{ph}}"
+            bindtap="onPhotoTap"
+          >
+            <image wx:if="{{ph}}" class="pd-photo-img" src="{{ph}}" mode="aspectFill"></image>
+          </view>
+        </view>
+
+        <!-- 文案（照片下面）-->
+        <view class="pd-caption" wx:if="{{zone.caption}}">{{zone.caption}}</view>
+
+<!-- 点赞 + 评论数 + 已读标记 -->
+<view class="pd-actions">
+  <view class="pd-act-icon {{zone.liked ? 'liked' : ''}}" data-zid="{{zone.zid}}" bindtap="onLike">
+    <text class="heart-emoji">{{zone.liked ? '❤️' : '🤍'}}</text>
+  </view>
+  <view class="pd-act-icon" data-zid="{{zone.zid}}" bindtap="onToggleComment">
+    <text class="cm-count">💬 {{zone.comments.length}}</text>
+  </view>
+  <!-- 我发的、朋友已读 → ✓✓✓ -->
+  <text class="pd-read" wx:if="{{zone.isMine && zone.myRead}}">✓✓✓</text>
+</view>
+
+<!-- 评论区 -->
+<view class="pd-comments" wx:if="{{zone.comments.length}}">
+  <view class="pd-comment" wx:for="{{zone.comments}}" wx:for-item="cm" wx:key="*this">
+    <text class="cm-name">{{cm.n}}</text><text>：{{cm.c}}</text>
+  </view>
+</view>
+
+<!-- 评论框：点击💬图标才显示 -->
+<view class="pd-comment-input" wx:if="{{zone.showInput}}">
+  <input class="cm-input" placeholder="要说点什么嘛..." value="{{zone.draft}}" data-zid="{{zone.zid}}" bindinput="onCommentInput" />
+  <text class="send" data-zid="{{zone.zid}}" bindtap="onSendComment">发送</text>
+</view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 大图预览 -->
+  <view class="pd-lightbox {{lightbox ? 'show' : ''}}" bindtap="onCloseLightbox">
+    <text class="close">×</text>
+    <image wx:if="{{lightboxSrc}}" class="big" src="{{lightboxSrc}}" mode="aspectFit"></image>
+    <view wx:else class="big"></view>
+  </view>
+</view>

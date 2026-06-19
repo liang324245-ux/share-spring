@@ -1,0 +1,23 @@
+{
+  "libVersion": "3.16.1",
+  "projectname": "share-spring%20%E6%9C%AA%E6%9C%89%E5%90%8E%E7%AB%AF%E7%89%88",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "condition": {},
+  "setting": {
+    "urlCheck": true,
+    "coverView": false,
+    "lazyloadPlaceholderEnable": false,
+    "skylineRenderEnable": false,
+    "preloadBackgroundData": false,
+    "autoAudits": false,
+    "useApiHook": true,
+    "showShadowRootInWxmlPanel": false,
+    "useStaticServer": false,
+    "useLanDebug": false,
+    "showES6CompileOption": false,
+    "compileHotReLoad": true,
+    "checkInvalidKey": true,
+    "ignoreDevUnusedFiles": true,
+    "bigPackageSizeSupport": false
+  }
+}

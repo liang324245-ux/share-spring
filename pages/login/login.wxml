@@ -1,0 +1,19 @@
+<!-- 登录页 -->
+<view class="page-root login">
+  <view class="status-bar light">
+    <text>{{statusTime}}</text>
+  </view>
+
+  <!-- 背景图-->
+  <image class="bg-img" src="/assets/login-bg.png" mode="aspectFill"></image>
+  <view class="overlay"></view>
+
+  <view class="login-content">
+    <image class="title-img" src="/assets/login-title.png" mode="widthFix"></image>
+    <view class="subtitle hand">
+  <text>在繁忙的日子里，</text>
+  <text>只要你偶尔想起我...</text>
+</view>
+    <view class="enter-btn hand" bindtap="onEnter">进入</view>
+  </view>
+</view>

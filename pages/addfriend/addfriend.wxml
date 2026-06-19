@@ -1,0 +1,41 @@
+<view class="af-page">
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+
+  </view>
+
+  <!-- 顶部 -->
+  <view class="af-topbar">
+    <text class="back" bindtap="onBack">‹</text>
+    <text class="af-title">添加朋友</text>
+    <text class="af-spacer"></text>
+  </view>
+
+  <!-- 角色切换 -->
+  <view class="role-tabs">
+    <view class="role-tab {{role === 'init' ? 'active' : ''}}" bindtap="onRoleInit">我是发起者</view>
+    <view class="role-tab {{role === 'recv' ? 'active' : ''}}" bindtap="onRoleRecv">我是接收者</view>
+  </view>
+
+  <!-- 发起者表单 -->
+  <view class="form-block init" wx:if="{{role === 'init'}}">
+    <view class="form-label">请输入双方定好的暗号 :</view>
+    <input class="form-input" placeholder="例如：一二三四五 , 上山打老虎" value="{{secret}}" bindinput="onSecretInput" />
+    <view class="form-label">我输入的是：</view>
+    <view class="radio-group">
+      <view class="radio-item {{part === 'up' ? 'checked' : ''}}" bindtap="onPickUp">
+        <view class="radio-dot"></view><text>上句暗号</text>
+      </view>
+      <view class="radio-item {{part === 'low' ? 'checked' : ''}}" bindtap="onPickLow">
+        <view class="radio-dot"></view><text>下句暗号</text>
+      </view>
+    </view>
+    <view class="action-btn" bindtap="onGenerate">生成邀请</view>
+  </view>
+
+  <!-- 接收者表单 -->
+  <view class="form-block recv" wx:else>
+    <view class="form-label recv">请输入你们的对接暗号：</view>
+    <input class="form-input recv" placeholder="例如：（想不出了...嘻嘻☺️）" value="{{recvSecret}}" bindinput="onRecvInput" />
+    <view class="action-btn recv" bindtap="onConfirm">确认添加</view>
+  </view>
+</view>

@@ -1,0 +1,73 @@
+<view class="set-page">
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+  </view>
+
+  <!-- 顶部 -->
+  <view class="set-topbar">
+    <text class="back" bindtap="onBack">‹</text>
+    <text class="set-title">个人主页</text>
+  </view>
+
+  <scroll-view class="set-scroll" scroll-y>
+    <!-- 个人资料 -->
+<view class="set-profile">
+  <!-- 选头像按钮 -->
+  <button class="big-avatar" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+    <image wx:if="{{profile.avatar}}" class="avatar-img" src="{{profile.avatar}}" mode="aspectFill"></image>
+    <text wx:else class="avatar-placeholder">＋</text>
+    <view class="edit-badge">✎</view>
+  </button>
+
+  <!-- 填昵称 -->
+  <input
+    class="nickname-input"
+    type="nickname"
+    placeholder="点击填写昵称"
+    value="{{profile.name}}"
+    bindchange="onNicknameBlur"
+    bindconfirm="onNicknameBlur"
+  />
+
+  <view class="user-sub">已进入小世界 {{profile.days}} 天</view>
+</view>
+
+    <!-- 消息提醒 -->
+    <view class="set-group">
+      <view class="set-group-label">消息提醒</view>
+      <view class="set-row">
+        <text class="row-icon">💬</text>
+        <text class="row-text">评论提醒</text>
+        <view class="switch {{notifyComment ? 'on' : ''}}" bindtap="onToggleComment"><view class="knob"></view></view>
+      </view>
+      <view class="set-row">
+        <text class="row-icon">📷</text>
+        <text class="row-text">新照片提醒</text>
+        <view class="switch {{notifyPhoto ? 'on' : ''}}" bindtap="onTogglePhoto"><view class="knob"></view></view>
+      </view>
+    </view>
+
+    <!-- 账号与安全 -->
+    <view class="set-group">
+      <view class="set-group-label">账号与安全</view>
+      <view class="set-row" bindtap="onPrivacy">
+        <text class="row-icon">🔒</text>
+        <text class="row-text">隐私设置</text>
+        <text class="row-arrow">›</text>
+      </view>
+      <view class="set-row">
+        <text class="row-icon">📱</text>
+        <text class="row-text">微信绑定</text>
+        <text class="row-value">已绑定</text>
+        <text class="row-arrow">›</text>
+      </view>
+      <view class="set-row" bindtap="onDeactivate">
+        <text class="row-icon">⚠️</text>
+        <text class="row-text set-danger">账号注销</text>
+        <text class="row-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 退出 -->
+    <view class="set-logout" bindtap="onLogout">退出登录</view>
+  </scroll-view>
+</view>
