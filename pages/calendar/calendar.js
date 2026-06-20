@@ -144,6 +144,7 @@ Page({
 
   // 上传照片给朋友（只读模式拦截）
   onUpload() {
+    if (getApp().blockIfDeactivating()) return;
     if (this.data.readonly) {
       wx.showToast({ title: '对方已离开，无法上传', icon: 'none' });
       return;
@@ -157,6 +158,7 @@ Page({
   // 点朋友名字 → 改备注
   onEditRemark() {
     const that = this;
+    if (getApp().blockIfDeactivating()) return;
     const friendId = this.data.friendId;
     if (!friendId) { return; }
 

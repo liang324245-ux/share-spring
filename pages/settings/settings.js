@@ -5,6 +5,7 @@ Page({
     statusBarHeight: 20,
     profile: { name: '', avatar: '', days: 0 },
     firstTime: false,    // 新用户首次填资料
+    deactivating: false, // 注销冷静期（禁用头像/昵称编辑）
     notifyComment: true,
     notifyPhoto: true
   },
@@ -12,7 +13,8 @@ Page({
   onLoad(options) {
     this.setData({
       statusBarHeight: app.globalData.statusBarHeight || 20,
-      firstTime: options.firstTime === '1'
+      firstTime: options.firstTime === '1',
+      deactivating: app.isDeactivating ? app.isDeactivating() : false
     });
     this.loadProfile();
   },
@@ -69,6 +71,7 @@ Page({
   // 选头像 → 上传云存储 + 云函数存数据库
   onChooseAvatar(e) {
     const that = this;
+    if (getApp().isDeactivating()) return;   // 注销中：静默无反应
     const tempUrl = e.detail.avatarUrl;
     let openid = getApp().globalData.openid;
     if (!openid) { openid = wx.getStorageSync('openid'); }
@@ -105,6 +108,7 @@ Page({
   // 填昵称 → 云函数存数据库
   onNicknameBlur(e) {
     const that = this;
+    if (getApp().isDeactivating()) return;   // 注销中：静默无反应
     const nickname = (e.detail.value || '').trim();
     if (!nickname) return;
     let openid = getApp().globalData.openid;
@@ -131,13 +135,46 @@ Page({
   onPrivacy() { wx.showToast({ title: '隐私设置（待开发）', icon: 'none' }); },
 
   onDeactivate() {
+    const that = this;
     wx.showModal({
       title: '账号注销',
-      content: '注销将移除你与所有朋友的连接，且不会通知任何人。所有朋友仍会保留与你的历史照片。注销后 7 天内可恢复，确定申请注销吗？',
+      content: '注销后你将无法发照片、评论、点赞，但仍可查看历史照片。朋友会看到你已注销，并保留你们的回忆。约7天后账号彻底注销。期间任意登录可恢复。确定申请注销吗？',
       confirmText: '确定注销',
       confirmColor: '#e57373',
       success: (res) => {
-        if (res.confirm) wx.showToast({ title: '已提交注销申请（演示）', icon: 'none' });
+        if (!res.confirm) { return; }
+        wx.showLoading({ title: '处理中...' });
+        wx.cloud.callFunction({
+          name: 'deactivateAccount',
+          success: function (r) {
+            wx.hideLoading();
+            if (r.result && r.result.success) {
+              getApp().globalData.isDeactivating = true;
+              if (getApp().globalData.userInfo) {
+                getApp().globalData.userInfo.status = 'deactivating';
+              }
+              wx.showModal({
+                title: '已进入注销冷静期',
+                content: '账号将在约7天后彻底注销。期间你仍可查看历史照片，任意一次登录可选择恢复账号。',
+                showCancel: false,
+                confirmText: '我知道了',
+                success: function () {
+                  wx.reLaunch({ url: '/pages/friends/friends' });
+                }
+              });
+            } else {
+              wx.showToast({
+                title: (r.result && r.result.msg) ? r.result.msg : '注销失败',
+                icon: 'none'
+              });
+            }
+          },
+          fail: function (err) {
+            wx.hideLoading();
+            console.error('deactivateAccount 失败:', err);
+            wx.showToast({ title: '注销失败', icon: 'none' });
+          }
+        });
       }
     });
   },

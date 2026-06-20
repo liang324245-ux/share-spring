@@ -1,7 +1,7 @@
 .af-page {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(160deg, #f5faf6 0%, #cdedde 100%);
   box-sizing: border-box;
 }
@@ -12,86 +12,147 @@
   margin-top: 40rpx;
 }
 .back { font-size: 90rpx; color: #999; width: 56rpx; }
-.af-title { flex: 1; text-align: center; font-size: 50rpx; color: #4a4a4a; }
-.af-spacer { width: 80rpx; }
+.af-title { flex: 1; text-align: center; font-size: 50rpx; color: #4a4a4a; margin-right: 56rpx; }
 
-.role-tabs {
-  display: flex;
-  margin: 32rpx 36rpx;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 70rpx;
-  padding: 10rpx;
+.af-scroll { padding: 10rpx 0 40rpx; }
+
+/* 卡片：沿用你的 form-block 风格 */
+.af-card {
+  margin: 34rpx 35rpx;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 36rpx;
+  padding: 60rpx 44rpx;
+  font-size: 100rpx;
 }
-.role-tab {
+.af-center { text-align: center; }
+
+/* 身份切换：沿用你的 role-tabs 胶囊风格 */
+.af-role-tabs {
+  display: flex;
+  background: rgba(255, 254, 254, 0.944);
+  border-radius: 80rpx;
+  padding: 10rpx;
+  margin-bottom: 50rpx;
+  margin-top: -20rpx;
+}
+.af-role {
   flex: 1;
   text-align: center;
   height: 90rpx;
-  line-height: 86rpx;
-  font-size: 40rpx;
+  line-height: 90rpx;
+  font-size: 38rpx;
   color: #999;
-  border-radius: 70rpx;
+  border-radius: 80rpx;
   transition: 0.25s;
 }
-.role-tab.active { background: #4caf72; color: #fff; }
+.af-role.on { background: #4caf72; color: #fff; }
 
-.form-block {
-  margin: 54rpx 35rpx;
-  background: rgba(255, 255, 255, 0.75);
-  border-radius: 36rpx;
-  padding: 110rpx 44rpx;
+/* 标签 + 输入框：沿用你的 form 风格 */
+.af-label {
+  font-size: 40rpx;
+  color: #5a5a5a;
+  margin: 8rpx 0 24rpx;
 }
-.form-block.recv {
-  padding: 50rpx 44rpx;       /* 比发起者小，卡片不那么高 */
-}
-.form-label.recv { margin-bottom: 40rpx;
-  margin-top: 15rpx; }
-
-.form-label { font-size: 40rpx; color: #5a5a5a; 
-  margin: 18rpx 0 20rpx;
-  margin-bottom: 30rpx;
-  margin-top: -40rpx; }
-.form-input {
+.af-input {
   width: 100%;
-  height: 98rpx;
+  height: 100rpx;
   background: rgba(0, 0, 0, 0.03);
-  border-radius: 20rpx;
+  border-radius: 50rpx;
   padding: 0 32rpx;
   font-size: 30rpx;
   color: #555;
   box-sizing: border-box;
-  margin-bottom: 130rpx;
+  margin-bottom: 55rpx;
 }
-.radio-group { display: flex; gap: 48rpx; margin-top: 12rpx; }
-.radio-item { display: flex; align-items: center; font-size: 33rpx; color: #888; 
-margin-left:20rpx;}
-.radio-dot {
-  width: 46rpx;
-  height: 46rpx;
-  border-radius: 50%;
-  border: 4rpx solid #ccc;
-  margin-right: 20rpx;
-  margin-top: 5rpx;
+
+/* 上句/下句选择：沿用你的胶囊风格 */
+.af-part-tabs {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 50rpx;
 }
-.radio-item.checked { color: #395044; }
-.radio-item.checked .radio-dot {
-  border-color: #4caf72;
-  background: radial-gradient(#4caf72 40%, transparent 45%);
+.af-part {
+  flex: 1;
+  text-align: center;
+  height: 86rpx;
+  line-height: 86rpx;
+  font-size: 38rpx;
+  color: #888;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 56rpx;
+  transition: 0.25s;
 }
-.action-btn {
-  margin-top: 50rpx;
-  margin-bottom: 10rpx;
-  height: 92rpx;
-  width: 350rpx;
-  line-height: 82rpx;
+.af-part.on {
+  background: #4caf72;
+  color: #fff;
+}
+
+/* 提交按钮：沿用你的 action-btn 风格 */
+.af-submit {
+  margin: 70rpx auto 10rpx;
+  height: 98rpx;
+  width: 300rpx;
+  line-height: 92rpx;
   text-align: center;
   background: #4caf72;
   border-radius: 56rpx;
   color: #fff;
   font-size: 40rpx;
   letter-spacing: 8rpx;
-  margin-left: 120rpx;
-  transform: translateY(30rpx);
 }
-.action-btn:active { transform: scale(0.86); }
-.action-btn.recv {margin-top: -80rpx;
-margin-bottom: 50rpx;}
+.af-submit:active { transform: scale(0.86); }
+
+/* 等待中状态 */
+.af-wait-icon {
+  width: 920rpx;
+  height: 920rpx;
+  margin: 80rpx auto 30rpx;
+  display: block;
+  margin-left: -170rpx;
+  margin-top: -150rpx;
+  margin-bottom: -200rpx;
+}
+.af-wait-title { font-size: 55rpx; color: #4a4a4a; margin-bottom: 18rpx; margin-top: -10rpx;}
+.af-wait-sub { font-size: 33rpx; color: #aaa; padding-bottom: 10rpx; }
+.af-card{font-size: 100rpx; margin-top: 50rpx;}
+
+/* 选择候选 */
+.af-pick-title { font-size: 36rpx; color: #5a5a5a; margin-bottom: 36rpx; }
+.af-people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 44rpx;
+}
+.af-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150rpx;
+}
+.af-avatar {
+  width: 130rpx;
+  height: 130rpx;
+  border-radius: 50%;
+  background: #e6ece8;
+  overflow: hidden;
+}
+.af-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52rpx;
+  color: #9bb3a4;
+}
+.af-person:active .af-avatar {
+  transform: scale(0.92);
+  transition: 0.15s;
+}
+.af-name {
+  font-size: 28rpx;
+  color: #4a4a4a;
+  margin-top: 16rpx;
+  max-width: 150rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

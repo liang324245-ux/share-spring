@@ -8,7 +8,7 @@
     <text class="back" bindtap="onBack">‹</text>
     <view class="cal-friend">
       <text class="nm" bindtap="onEditRemark">{{friendName}}</text>
-      <text class="nm-edit" bindtap="onEditRemark">✏️</text>
+      <text class="nm-edit" bindtap="onEditRemark">✎</text>
     </view>
     <text class="spacer"></text>
     <text class="trash" bindtap="onTrash">🗑️</text>
@@ -55,5 +55,5 @@
   </view>
 
   <!-- 上传浮动按钮 -->
-  <view class="upload-float" bindtap="onUpload">上传照片</view>
+  <view class="upload-float" wx:if="{{!readonly}}" bindtap="onUpload">上传照片</view>
 </view>

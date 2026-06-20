@@ -4,7 +4,7 @@ Page({
   data: {
     statusBarHeight: 20,
     photos: [],         // 照片数组
-    date: '2026-06-18',
+    date: '',
     caption: '',
     receiverId: ''      // 接收者（朋友）的 openid
   },
@@ -14,6 +14,11 @@ Page({
       statusBarHeight: app.globalData.statusBarHeight || 20,
       receiverId: options.receiver || ''   // 从日历页传来的朋友 openid
     });
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    this.setData({ date: y + '-' + m + '-' + d });
   },
 
   // 选照片（调系统相册/相机）
@@ -48,6 +53,7 @@ Page({
 
   // 立即分享
   onPublish() {
+    if (getApp().blockIfDeactivating()) return;  
     const photos = this.data.photos.filter(p => p);   // 过滤空占位
     if (photos.length === 0) {
       wx.showToast({ title: '请先选择照片', icon: 'none' });

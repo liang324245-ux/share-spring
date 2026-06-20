@@ -11,19 +11,20 @@
   <scroll-view class="set-scroll" scroll-y>
     <!-- 个人资料 -->
 <view class="set-profile">
-  <!-- 选头像按钮 -->
-  <button class="big-avatar" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+  <!-- 选头像按钮：注销中去掉 open-type，点了不弹面板 -->
+  <button class="big-avatar" open-type="{{deactivating ? '' : 'chooseAvatar'}}" bindchooseavatar="onChooseAvatar">
     <image wx:if="{{profile.avatar}}" class="avatar-img" src="{{profile.avatar}}" mode="aspectFill"></image>
     <text wx:else class="avatar-placeholder">＋</text>
     <view class="edit-badge">✎</view>
   </button>
 
-  <!-- 填昵称 -->
+  <!-- 填昵称：注销中 disabled，点了不能输入 -->
   <input
     class="nickname-input"
     type="nickname"
     placeholder="点击填写昵称"
     value="{{profile.name}}"
+    disabled="{{deactivating}}"
     bindchange="onNicknameBlur"
     bindconfirm="onNicknameBlur"
   />

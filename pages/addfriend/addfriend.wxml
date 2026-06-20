@@ -1,41 +1,87 @@
 <view class="af-page">
-  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;">
+  <view class="status-bar" style="height:{{statusBarHeight + 24}}px; padding-top:{{statusBarHeight}}px;"></view>
 
-  </view>
-
-  <!-- 顶部 -->
   <view class="af-topbar">
     <text class="back" bindtap="onBack">‹</text>
     <text class="af-title">添加朋友</text>
-    <text class="af-spacer"></text>
   </view>
 
-  <!-- 角色切换 -->
-  <view class="role-tabs">
-    <view class="role-tab {{role === 'init' ? 'active' : ''}}" bindtap="onRoleInit">我是发起者</view>
-    <view class="role-tab {{role === 'recv' ? 'active' : ''}}" bindtap="onRoleRecv">我是接收者</view>
-  </view>
+  <scroll-view class="af-scroll" scroll-y>
 
-  <!-- 发起者表单 -->
-  <view class="form-block init" wx:if="{{role === 'init'}}">
-    <view class="form-label">请输入双方定好的暗号 :</view>
-    <input class="form-input" placeholder="例如：一二三四五 , 上山打老虎" value="{{secret}}" bindinput="onSecretInput" />
-    <view class="form-label">我输入的是：</view>
-    <view class="radio-group">
-      <view class="radio-item {{part === 'up' ? 'checked' : ''}}" bindtap="onPickUp">
-        <view class="radio-dot"></view><text>上句暗号</text>
+    <!-- 初始：选身份 + 输入暗号 -->
+    <block wx:if="{{phase === 'idle'}}">
+      <view class="af-card">
+        <view class="af-role-tabs">
+          <view class="af-role {{role === 'inviter' ? 'on' : ''}}" data-role="inviter" bindtap="onRolePick">发起者</view>
+          <view class="af-role {{role === 'applicant' ? 'on' : ''}}" data-role="applicant" bindtap="onRolePick">接收者</view>
+        </view>
+
+        <!-- 发起者 -->
+        <block wx:if="{{role === 'inviter'}}">
+          <view class="af-label">输入完整暗号</view>
+          <input class="af-input" placeholder="例如：一二三四五，上山打老虎" value="{{secretInput}}" bindinput="onSecretInput" />
+          <view class="af-label">我输入的是：</view>
+          <view class="af-part-tabs">
+            <view class="af-part {{part === 'up' ? 'on' : ''}}" data-part="up" bindtap="onPartPick">上句</view>
+            <view class="af-part {{part === 'low' ? 'on' : ''}}" data-part="low" bindtap="onPartPick">下句</view>
+          </view>
+          <view class="af-submit" bindtap="onSubmit">生成邀请</view>
+        </block>
+
+        <!-- 接收者 -->
+        <block wx:else>
+          <view class="af-label">补充完整另一半暗号</view>
+          <input class="af-input" placeholder="输入你那半句暗号" value="{{secretInput}}" bindinput="onSecretInput" />
+          <view class="af-submit" bindtap="onSubmit">确认添加</view>
+        </block>
       </view>
-      <view class="radio-item {{part === 'low' ? 'checked' : ''}}" bindtap="onPickLow">
-        <view class="radio-dot"></view><text>下句暗号</text>
-      </view>
-    </view>
-    <view class="action-btn" bindtap="onGenerate">生成邀请</view>
-  </view>
+    </block>
 
-  <!-- 接收者表单 -->
-  <view class="form-block recv" wx:else>
-    <view class="form-label recv">请输入你们的对接暗号：</view>
-    <input class="form-input recv" placeholder="例如：（想不出了...嘻嘻☺️）" value="{{recvSecret}}" bindinput="onRecvInput" />
-    <view class="action-btn recv" bindtap="onConfirm">确认添加</view>
-  </view>
+    <!-- 等待中 -->
+    <block wx:elif="{{phase === 'waiting'}}">
+      <view class="af-card af-center">
+        <image class="af-wait-icon" src="/assets/addfriend.png" mode="aspectFit"></image>
+        <view class="af-wait-title">
+          {{role === 'inviter' ? '等待朋友输入暗号中…' : '等待对方确认中…'}}
+        </view>
+        <view class="af-wait-sub">
+          {{role === 'inviter' ? '把另一句暗号告诉你的朋友吧' : '对方确认后就能添加啦'}}
+        </view>
+      </view>
+    </block>
+
+    <!-- 选择候选 -->
+    <block wx:elif="{{phase === 'picking'}}">
+      <!-- 发起者选申请者 -->
+      <block wx:if="{{role === 'inviter'}}">
+        <view class="af-card">
+          <view class="af-pick-title">有人和你用同样的暗号，请选出你的朋友：</view>
+          <view class="af-people">
+            <view class="af-person" wx:for="{{applicants}}" wx:key="applicant"
+                  data-id="{{item.applicant}}" data-secret="{{item.full_secret}}" bindtap="onPickApplicant">
+              <image wx:if="{{item.avatar}}" class="af-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+              <view wx:else class="af-avatar af-avatar-fallback">{{item.nickname[0]}}</view>
+              <text class="af-name">{{item.nickname}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <!-- 接收者确认发起者 -->
+      <block wx:else>
+        <view class="af-card">
+          <view class="af-pick-title">有人想和你成为朋友，请确认是哪位：</view>
+          <view class="af-people">
+            <view class="af-person" wx:for="{{pickers}}" wx:key="a_openid"
+                  data-id="{{item.a_openid}}" data-invite="{{item.invite_id}}" data-name="{{item.nickname}}"
+                  bindtap="onConfirmInviter">
+              <image wx:if="{{item.avatar}}" class="af-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+              <view wx:else class="af-avatar af-avatar-fallback">{{item.nickname[0]}}</view>
+              <text class="af-name">{{item.nickname}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+
+  </scroll-view>
 </view>

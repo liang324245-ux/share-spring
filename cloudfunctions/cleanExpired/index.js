@@ -4,11 +4,11 @@ const db = cloud.database();
 const _ = db.command;
 
 exports.main = async (event, context) => {
-  // 3天前的时间点
   const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-  // 找出：已删除 + 彻底清除式(keep_memory=false) + 离开超过3天 的关系
-  const res = await db.collection('friendships').where(
+  // ===== 1. 处理 B2 删除关系：deleted + 不保留 + 超3天 → expired =====
+  const relRes = await db.collection('friendships').where(
     _.and([
       { status: 'deleted' },
       { keep_memory: false },
@@ -16,16 +16,32 @@ exports.main = async (event, context) => {
     ])
   ).get();
 
-  const rels = res.data || [];
-  let processed = 0;
-
+  const rels = relRes.data || [];
+  let expiredRels = 0;
   for (let i = 0; i < rels.length; i++) {
     await db.collection('friendships').doc(rels[i]._id).update({
       data: { status: 'expired' }
     });
-    processed++;
+    expiredRels++;
   }
 
-  console.log('cleanExpired 处理了', processed, '条超3天的B2关系');
-  return { success: true, processed: processed };
+  // ===== 2. 处理注销账号：deactivating + 超约7天 → deactivated =====
+  const userRes = await db.collection('users').where(
+    _.and([
+      { status: 'deactivating' },
+      { deactivate_at: _.lt(sevenDaysAgo) }
+    ])
+  ).get();
+
+  const users = userRes.data || [];
+  let deactivatedUsers = 0;
+  for (let j = 0; j < users.length; j++) {
+    await db.collection('users').doc(users[j]._id).update({
+      data: { status: 'deactivated' }
+    });
+    deactivatedUsers++;
+  }
+
+  console.log('cleanExpired: 过期关系', expiredRels, '注销账号', deactivatedUsers);
+  return { success: true, expiredRels: expiredRels, deactivatedUsers: deactivatedUsers };
 };

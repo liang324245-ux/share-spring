@@ -165,7 +165,7 @@
 
 /* 上传浮动按钮 */
 .upload-float {
-  position: absolute;
+  display: block;
   bottom: 370rpx;
   left: 50%;
   transform: translateX(-50%);
@@ -180,5 +180,7 @@
   letter-spacing: 4rpx;
   box-shadow: 0 6px 18px rgba(76, 175, 114, 0.55);
   font-family: "sans-serif";
+  margin: 65rpx auto 0; 
+  margin-right: 110rpx
 }
 .upload-float:active { transform: translateX(-50%) scale(0.88); }

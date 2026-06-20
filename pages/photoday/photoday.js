@@ -342,6 +342,7 @@ Page({
 
   onLike(e) {
     const that = this;
+    if (getApp().isDeactivating()) return;   // 注销中：静默无反应
     const zid = e.currentTarget.dataset.zid;
 
     let target = null;
@@ -382,6 +383,7 @@ Page({
 
   // 点击💬图标 → 切换该 zone 的评论框显示
   onToggleComment(e) {
+    if (getApp().isDeactivating()) return;   // 注销中：静默无反应
     const zid = e.currentTarget.dataset.zid;
     const zones = this.data.zones.map(function (z) {
       if (z.zid === zid) z.showInput = !z.showInput;
@@ -402,6 +404,7 @@ Page({
 
   onSendComment(e) {
     const that = this;
+    if (getApp().isDeactivating()) return;   // 注销中：静默无反应
     const zid = e.currentTarget.dataset.zid;
 
     let target = null;
