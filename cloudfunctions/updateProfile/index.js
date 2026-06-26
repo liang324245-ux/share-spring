@@ -10,6 +10,7 @@ exports.main = async (event, context) => {
   const updateData = {};
   if (event.nickname !== undefined) updateData.nickname = event.nickname;
   if (event.avatar !== undefined) updateData.avatar = event.avatar;
+  if (event.notify_photo !== undefined) updateData.notify_photo = event.notify_photo === true;
 
   if (Object.keys(updateData).length === 0) {
     return { success: false, msg: '没有要更新的内容' };

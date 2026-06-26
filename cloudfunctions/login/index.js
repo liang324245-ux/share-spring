@@ -18,6 +18,7 @@ exports.main = async (event, context) => {
         nickname: '',
         avatar: '',
         status: 'active',
+        notify_photo: true,
         created_at: db.serverDate()
       }
     });
@@ -54,6 +55,7 @@ exports.main = async (event, context) => {
         nickname: '',
         avatar: '',
         status: 'active',
+        notify_photo: true,
         deactivate_at: null
       }
     });

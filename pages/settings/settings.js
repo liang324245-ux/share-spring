@@ -1,12 +1,40 @@
 const app = getApp();
 
+const SUBSCRIBE_TEMPLATE_IDS = {
+  photo: 'dZt5GfFG-oMRJ-KB-rDXJzlltzN5wiK6oLWMHr_mQSM'
+};
+
+function hasValidTemplateId(tmplId) {
+  return !!tmplId && tmplId.indexOf('TODO_') !== 0;
+}
+
+function calcWorldDays(createdAt) {
+  if (!createdAt) return 1;
+
+  let start = createdAt;
+  if (typeof createdAt === 'string' || typeof createdAt === 'number') {
+    start = new Date(createdAt);
+  }
+  if (createdAt && createdAt.$date) {
+    start = new Date(createdAt.$date);
+  }
+  if (!(start instanceof Date) || isNaN(start.getTime())) {
+    return 1;
+  }
+
+  const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate()).getTime();
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const diffDays = Math.floor((today - startDay) / 86400000);
+  return Math.max(1, diffDays + 1);
+}
+
 Page({
   data: {
     statusBarHeight: 20,
     profile: { name: '', avatar: '', days: 0 },
     firstTime: false,    // 新用户首次填资料
     deactivating: false, // 注销冷静期（禁用头像/昵称编辑）
-    notifyComment: true,
     notifyPhoto: true
   },
 
@@ -35,7 +63,9 @@ Page({
         if (res.data.length > 0) {
           const u = res.data[0];
           that.setData({
-            'profile.name': u.nickname || ''
+            'profile.name': u.nickname || '',
+            'profile.days': calcWorldDays(u.created_at),
+            notifyPhoto: u.notify_photo !== false
           });
           // 头像是 cloud://，走云函数换 https 再显示
           if (u.avatar) {
@@ -129,10 +159,64 @@ Page({
     });
   },
 
-  onToggleComment() { this.setData({ notifyComment: !this.data.notifyComment }); },
-  onTogglePhoto() { this.setData({ notifyPhoto: !this.data.notifyPhoto }); },
+  onTogglePhoto() {
+    this.updateNotifySetting(!this.data.notifyPhoto);
+  },
 
-  onPrivacy() { wx.showToast({ title: '隐私设置（待开发）', icon: 'none' }); },
+  updateNotifySetting(enabled) {
+    if (getApp().isDeactivating()) return;
+
+    const key = 'notifyPhoto';
+    const field = 'notify_photo';
+    const tmplId = SUBSCRIBE_TEMPLATE_IDS.photo;
+    const that = this;
+
+    function saveSetting() {
+      const oldValue = that.data[key];
+      that.setData({ [key]: enabled });
+      wx.cloud.callFunction({
+        name: 'updateProfile',
+        data: { [field]: enabled },
+        success: function (res) {
+          if (!res.result || !res.result.success) {
+            that.setData({ [key]: oldValue });
+            wx.showToast({ title: '保存失败', icon: 'none' });
+            return;
+          }
+          wx.showToast({ title: enabled ? '已开启' : '已关闭', icon: 'success' });
+        },
+        fail: function () {
+          that.setData({ [key]: oldValue });
+          wx.showToast({ title: '保存失败', icon: 'none' });
+        }
+      });
+    }
+
+    if (!enabled) {
+      saveSetting();
+      return;
+    }
+
+    if (!hasValidTemplateId(tmplId)) {
+      saveSetting();
+      wx.showToast({ title: '模板ID待配置', icon: 'none' });
+      return;
+    }
+
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplId],
+      success: function (res) {
+        if (res[tmplId] === 'accept') {
+          saveSetting();
+        } else {
+          wx.showToast({ title: '需要授权订阅消息', icon: 'none' });
+        }
+      },
+      fail: function () {
+        wx.showToast({ title: '订阅授权失败', icon: 'none' });
+      }
+    });
+  },
 
   onDeactivate() {
     const that = this;
@@ -182,12 +266,33 @@ Page({
   onLogout() {
     wx.showModal({
       title: '退出登录',
-      content: '确定要退出登录吗？',
+      content: '退出后需要重新填写昵称和头像，确定退出吗？',
       success: (res) => {
         if (res.confirm) {
-          wx.removeStorageSync('openid');
-          getApp().globalData.openid = '';
-          wx.reLaunch({ url: '/pages/login/login' });
+          wx.showLoading({ title: '退出中...' });
+          wx.cloud.callFunction({
+            name: 'updateProfile',
+            data: { nickname: '', avatar: '' },
+            success: (r) => {
+              wx.hideLoading();
+              if (!r.result || !r.result.success) {
+                wx.showToast({
+                  title: (r.result && r.result.msg) ? r.result.msg : '退出失败',
+                  icon: 'none'
+                });
+                return;
+              }
+              wx.removeStorageSync('openid');
+              getApp().globalData.openid = '';
+              getApp().globalData.userName = '';
+              getApp().globalData.userInfo = null;
+              wx.reLaunch({ url: '/pages/login/login' });
+            },
+            fail: () => {
+              wx.hideLoading();
+              wx.showToast({ title: '退出失败', icon: 'none' });
+            }
+          });
         }
       }
     });

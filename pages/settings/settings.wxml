@@ -36,11 +36,6 @@
     <view class="set-group">
       <view class="set-group-label">消息提醒</view>
       <view class="set-row">
-        <text class="row-icon">💬</text>
-        <text class="row-text">评论提醒</text>
-        <view class="switch {{notifyComment ? 'on' : ''}}" bindtap="onToggleComment"><view class="knob"></view></view>
-      </view>
-      <view class="set-row">
         <text class="row-icon">📷</text>
         <text class="row-text">新照片提醒</text>
         <view class="switch {{notifyPhoto ? 'on' : ''}}" bindtap="onTogglePhoto"><view class="knob"></view></view>
@@ -50,11 +45,6 @@
     <!-- 账号与安全 -->
     <view class="set-group">
       <view class="set-group-label">账号与安全</view>
-      <view class="set-row" bindtap="onPrivacy">
-        <text class="row-icon">🔒</text>
-        <text class="row-text">隐私设置</text>
-        <text class="row-arrow">›</text>
-      </view>
       <view class="set-row">
         <text class="row-icon">📱</text>
         <text class="row-text">微信绑定</text>

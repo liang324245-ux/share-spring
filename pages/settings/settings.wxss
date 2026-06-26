@@ -64,7 +64,7 @@ font-size: 35rpx;
 .avatar-placeholder {
   font-size: 72rpx;
   color: #b5c9bd;
-  font-weight: 300;
+  font-weight: 200;
   line-height: 1;
 }
 .edit-badge {
@@ -91,7 +91,7 @@ font-size: 35rpx;
   align-items: center;
   gap: 12rpx;
 }
-.nickname .pen { font-size: 28rpx; opacity: 0.5; }
+.nickname .pen { font-size: 28rpx; opacity: 0.5;margin-top:15rpx; }
 .user-sub { font-size: 26rpx; color: #a8bcae; margin-top: 12rpx; }
 
 /* 分组 */

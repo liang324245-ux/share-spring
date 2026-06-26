@@ -89,7 +89,14 @@ Page({
           is_read_by_receiver: false,
           upload_time: db.serverDate()
         },
-        success: () => {
+        success: (addRes) => {
+          wx.cloud.callFunction({
+            name: 'sendPhotoReminder',
+            data: { photoId: addRes._id },
+            fail: function (err) {
+              console.error('sendPhotoReminder 失败:', err);
+            }
+          });
           wx.hideLoading();
           wx.showToast({ title: '分享成功', icon: 'success' });
           setTimeout(() => {
