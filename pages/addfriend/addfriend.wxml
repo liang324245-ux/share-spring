@@ -3,7 +3,7 @@
 
   <view class="af-topbar">
     <text class="back" bindtap="onBack">‹</text>
-    <text class="af-title">添加朋友</text>
+    <text class="af-title">新的连接</text>
   </view>
 
   <scroll-view class="af-scroll" scroll-y>
@@ -42,10 +42,10 @@
       <view class="af-card af-center">
         <image class="af-wait-icon" src="/assets/addfriend.png" mode="aspectFit"></image>
         <view class="af-wait-title">
-          {{role === 'inviter' ? '等待朋友输入暗号中…' : '等待对方确认中…'}}
+          {{role === 'inviter' ? '等待对方输入暗号中...' : '等待对方确认中…'}}
         </view>
         <view class="af-wait-sub">
-          {{role === 'inviter' ? '把另一句暗号告诉你的朋友吧' : '对方确认后就能添加啦'}}
+          {{role === 'inviter' ? '把另一句暗号告诉 TA 吧' : '对方确认后就能添加啦'}}
         </view>
       </view>
     </block>
@@ -55,7 +55,7 @@
       <!-- 发起者选申请者 -->
       <block wx:if="{{role === 'inviter'}}">
         <view class="af-card">
-          <view class="af-pick-title">有人和你用同样的暗号，请选出你的朋友：</view>
+          <view class="af-pick-title">选出你想连接的人</view>
           <view class="af-people">
             <view class="af-person" wx:for="{{applicants}}" wx:key="applicant"
                   data-id="{{item.applicant}}" data-secret="{{item.full_secret}}" bindtap="onPickApplicant">
@@ -69,7 +69,7 @@
       <!-- 接收者确认发起者 -->
       <block wx:else>
         <view class="af-card">
-          <view class="af-pick-title">有人想和你成为朋友，请确认是哪位：</view>
+          <view class="af-pick-title">有人想和你建立连接，请确认是哪位：</view>
           <view class="af-people">
             <view class="af-person" wx:for="{{pickers}}" wx:key="a_openid"
                   data-id="{{item.a_openid}}" data-invite="{{item.invite_id}}" data-name="{{item.nickname}}"

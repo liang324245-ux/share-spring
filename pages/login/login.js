@@ -1,4 +1,5 @@
 const app = getApp();
+const worldDays = require('../../utils/world-days');
 
 Page({
   data: {
@@ -37,6 +38,8 @@ Page({
           return;
         }
 
+        worldDays.startLoginSession(userInfo.created_at, r.isNew || r.reborn);
+
         // 正常账号：原有路由
         this.routeNormal(userInfo);
       },
@@ -68,6 +71,7 @@ Page({
               wx.hideLoading();
               app.globalData.isDeactivating = false;
               if (app.globalData.userInfo) app.globalData.userInfo.status = 'active';
+              worldDays.resume(userInfo.created_at, userInfo.deactivate_at);
               wx.showToast({ title: '账号已恢复', icon: 'success' });
               setTimeout(function () { that.routeNormal(userInfo); }, 800);
             },

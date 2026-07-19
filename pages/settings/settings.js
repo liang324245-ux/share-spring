@@ -1,4 +1,5 @@
 const app = getApp();
+const worldDays = require('../../utils/world-days');
 
 const SUBSCRIBE_TEMPLATE_IDS = {
   photo: 'dZt5GfFG-oMRJ-KB-rDXJzlltzN5wiK6oLWMHr_mQSM'
@@ -8,25 +9,18 @@ function hasValidTemplateId(tmplId) {
   return !!tmplId && tmplId.indexOf('TODO_') !== 0;
 }
 
-function calcWorldDays(createdAt) {
-  if (!createdAt) return 1;
-
-  let start = createdAt;
-  if (typeof createdAt === 'string' || typeof createdAt === 'number') {
-    start = new Date(createdAt);
-  }
-  if (createdAt && createdAt.$date) {
-    start = new Date(createdAt.$date);
-  }
-  if (!(start instanceof Date) || isNaN(start.getTime())) {
-    return 1;
+function requirePrivacyAuthorize(onAuthorized) {
+  if (typeof wx.requirePrivacyAuthorize !== 'function') {
+    onAuthorized();
+    return;
   }
 
-  const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate()).getTime();
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const diffDays = Math.floor((today - startDay) / 86400000);
-  return Math.max(1, diffDays + 1);
+  wx.requirePrivacyAuthorize({
+    success: onAuthorized,
+    fail() {
+      wx.showToast({ title: '需要同意隐私保护指引', icon: 'none' });
+    }
+  });
 }
 
 Page({
@@ -55,16 +49,27 @@ Page({
       openid = wx.getStorageSync('openid');
       if (openid) getApp().globalData.openid = openid;
     }
-    if (!openid) return;
+    if (!openid) {
+      this.setData({ 'profile.days': 0 });
+      return;
+    }
 
     const db = wx.cloud.database();
     db.collection('users').where({ openid }).get({
       success: (res) => {
         if (res.data.length > 0) {
           const u = res.data[0];
+          const isDeactivating = u.status === 'deactivating';
+          const isDeactivated = u.status === 'deactivated';
+          if (isDeactivated) {
+            worldDays.resetAfterDeactivation();
+          }
           that.setData({
             'profile.name': u.nickname || '',
-            'profile.days': calcWorldDays(u.created_at),
+            'profile.days': isDeactivating
+              ? worldDays.getFrozenDays(u.created_at, u.deactivate_at)
+              : (isDeactivated ? 0 : worldDays.getDays(u.created_at)),
+            deactivating: isDeactivating || isDeactivated,
             notifyPhoto: u.notify_photo !== false
           });
           // 头像是 cloud://，走云函数换 https 再显示
@@ -99,6 +104,11 @@ Page({
   },
 
   // 选头像 → 上传云存储 + 云函数存数据库
+  onAvatarPrivacyAuthorize() {
+    if (getApp().isDeactivating()) return;
+    requirePrivacyAuthorize(function () {});
+  },
+
   onChooseAvatar(e) {
     const that = this;
     if (getApp().isDeactivating()) return;   // 注销中：静默无反应
@@ -136,6 +146,11 @@ Page({
   },
 
   // 填昵称 → 云函数存数据库
+  onNicknamePrivacyAuthorize() {
+    if (getApp().isDeactivating()) return;
+    requirePrivacyAuthorize(function () {});
+  },
+
   onNicknameBlur(e) {
     const that = this;
     if (getApp().isDeactivating()) return;   // 注销中：静默无反应
@@ -222,7 +237,7 @@ Page({
     const that = this;
     wx.showModal({
       title: '账号注销',
-      content: '注销后你将无法发照片、评论、点赞，但仍可查看历史照片。朋友会看到你已注销，并保留你们的回忆。约7天后账号彻底注销。期间任意登录可恢复。确定申请注销吗？',
+      content: '注销后你将无法发照片、评论、点赞，但仍可查看历史照片。对方会看到你已注销，并保留你们的回忆。约7天后账号彻底注销。期间任意登录可恢复。确定申请注销吗？',
       confirmText: '确定注销',
       confirmColor: '#e57373',
       success: (res) => {
@@ -233,10 +248,14 @@ Page({
           success: function (r) {
             wx.hideLoading();
             if (r.result && r.result.success) {
+              worldDays.freeze(that.data.profile.days);
               getApp().globalData.isDeactivating = true;
               if (getApp().globalData.userInfo) {
                 getApp().globalData.userInfo.status = 'deactivating';
               }
+              that.setData({
+                deactivating: true
+              });
               wx.showModal({
                 title: '已进入注销冷静期',
                 content: '账号将在约7天后彻底注销。期间你仍可查看历史照片，任意一次登录可选择恢复账号。',
@@ -282,6 +301,8 @@ Page({
                 });
                 return;
               }
+              worldDays.reset();
+              this.setData({ 'profile.days': 0 });
               wx.removeStorageSync('openid');
               getApp().globalData.openid = '';
               getApp().globalData.userName = '';

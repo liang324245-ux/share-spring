@@ -10,6 +10,7 @@
     "pages/settings/settings",
     "pages/delfriend/delfriend"
   ],
+  "__usePrivacyCheck__": true,
   "window": {
     "navigationStyle": "custom",
     "navigationBarTextStyle": "black",

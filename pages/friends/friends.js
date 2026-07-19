@@ -343,7 +343,7 @@ Page({
   onOpenCalendar() {
     const f = this.data.feature;
     if (!this.data.hasNew) {
-      wx.showToast({ title: '还没有朋友发来的照片哦', icon: 'none' });
+      wx.showToast({ title: '还没有新的照片记录哦', icon: 'none' });
       return;
     }
     wx.navigateTo({

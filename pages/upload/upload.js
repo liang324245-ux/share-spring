@@ -1,5 +1,19 @@
 const app = getApp();
 
+function requirePrivacyAuthorize(onAuthorized) {
+  if (typeof wx.requirePrivacyAuthorize !== 'function') {
+    onAuthorized();
+    return;
+  }
+
+  wx.requirePrivacyAuthorize({
+    success: onAuthorized,
+    fail() {
+      wx.showToast({ title: '需要同意隐私保护指引', icon: 'none' });
+    }
+  });
+}
+
 Page({
   data: {
     statusBarHeight: 20,
@@ -24,16 +38,18 @@ Page({
   // 选照片（调系统相册/相机）
   onAddPhoto() {
     const that = this;
-    wx.chooseMedia({
-      count: 9 - this.data.photos.filter(p => p).length,   // 最多9张
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'],
-      success(res) {
-        const newPaths = res.tempFiles.map(f => f.tempFilePath);
-        // 过滤掉原来的空占位，再拼上新选的
-        const real = that.data.photos.filter(p => p);
-        that.setData({ photos: real.concat(newPaths) });
-      }
+    requirePrivacyAuthorize(function () {
+      wx.chooseMedia({
+        count: 9 - that.data.photos.filter(p => p).length,   // 最多9张
+        mediaType: ['image'],
+        sourceType: ['album', 'camera'],
+        success(res) {
+          const newPaths = res.tempFiles.map(f => f.tempFilePath);
+          // 过滤掉原来的空占位，再拼上新选的
+          const real = that.data.photos.filter(p => p);
+          that.setData({ photos: real.concat(newPaths) });
+        }
+      });
     });
   },
 
@@ -51,7 +67,7 @@ Page({
     this.setData({ caption: e.detail.value });
   },
 
-  // 立即分享
+  // 记录这一刻
   onPublish() {
     if (getApp().blockIfDeactivating()) return;  
     const photos = this.data.photos.filter(p => p);   // 过滤空占位
@@ -98,7 +114,7 @@ Page({
             }
           });
           wx.hideLoading();
-          wx.showToast({ title: '分享成功', icon: 'success' });
+          wx.showToast({ title: '已保存 🌸', icon: 'success' });
           setTimeout(() => {
             wx.navigateBack({ fail() { wx.reLaunch({ url: '/pages/friends/friends' }); } });
           }, 800);

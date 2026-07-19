@@ -18,21 +18,21 @@
 }
 .page-title-cn {
   font-size: 42rpx;
-  color: #39865c;
+  color: #1c2721;
   font-weight: 600;
   font-family:  "PingFang SC", serif; 
   margin-bottom: 28rpx;
   margin-top: -35rpx;
-  margin-left: 5rpx; 
+  margin-left: -10rpx; 
 }
 .page-title-en {
   display: block;
   text-align: left;
-  font-size: 35rpx;
+  font-size: 34rpx;
   color: #3a8c5f;
   font-weight: 550; 
   margin-top: 20rpx;
-  margin-left: -500rpx;
+  margin-left: -510rpx;
 }
 .fl-setting {
   width: 80rpx;

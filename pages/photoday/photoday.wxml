@@ -10,8 +10,8 @@
 
   <!-- 内容滚动区 -->
   <scroll-view class="pd-scroll" scroll-y>
-    <!-- 没有分享 -->
-    <view class="pd-empty" wx:if="{{!hasPhoto}}">这天还没有分享呢～</view>
+    <!-- 没有记录 -->
+    <view class="pd-empty" wx:if="{{!hasPhoto}}">这天还没有记录呢～</view>
 
     <!-- 有分享 -->
     <block wx:else>

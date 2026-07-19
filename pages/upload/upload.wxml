@@ -5,7 +5,7 @@
   <!-- 顶部 -->
   <view class="up-topbar">
     <text class="up-cancel" bindtap="onCancel">取消</text>
-    <text class="up-title">上传照片</text>
+    <text class="up-title">记录美好瞬间</text>
     <text class="up-spacer"></text>
   </view>
 
@@ -39,7 +39,7 @@
       <view class="cap-count">{{caption.length}}/200</view>
     </view>
 
-    <!-- 分享按钮 -->
-    <view class="publish-btn" bindtap="onPublish">立即分享</view>
+    <!-- 记录按钮 -->
+    <view class="publish-btn" bindtap="onPublish">记录这一刻</view>
   </scroll-view>
 </view>

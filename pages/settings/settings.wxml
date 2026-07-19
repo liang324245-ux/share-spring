@@ -12,7 +12,12 @@
     <!-- 个人资料 -->
 <view class="set-profile">
   <!-- 选头像按钮：注销中去掉 open-type，点了不弹面板 -->
-  <button class="big-avatar" open-type="{{deactivating ? '' : 'chooseAvatar'}}" bindchooseavatar="onChooseAvatar">
+  <button
+    class="big-avatar"
+    open-type="{{deactivating ? '' : 'chooseAvatar'}}"
+    bindtap="onAvatarPrivacyAuthorize"
+    bindchooseavatar="onChooseAvatar"
+  >
     <image wx:if="{{profile.avatar}}" class="avatar-img" src="{{profile.avatar}}" mode="aspectFill"></image>
     <text wx:else class="avatar-placeholder">＋</text>
     <view class="edit-badge">✎</view>
@@ -25,6 +30,7 @@
     placeholder="点击填写昵称"
     value="{{profile.name}}"
     disabled="{{deactivating}}"
+    bindfocus="onNicknamePrivacyAuthorize"
     bindchange="onNicknameBlur"
     bindconfirm="onNicknameBlur"
   />

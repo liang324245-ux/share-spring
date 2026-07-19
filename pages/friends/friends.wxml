@@ -5,7 +5,7 @@
 
   <!-- 顶部标题 + 设置 -->
   <view class="fl-header">
-    <text class="page-title-cn">分享我们的</text>
+    <text class="page-title-cn">记录一些</text>
     <text class="page-title-en">LITTLE MOMENTS</text>
     <view class="fl-setting" bindtap="onSettings"><text class="gear">⚙️</text></view>
   </view>
@@ -27,14 +27,14 @@
     <view class="feature-card empty" wx:else bindtap="onOpenCalendar">
       <view class="empty-inner">
   <image class="friend-none" src="/assets/friend-none.png" mode="aspectFit"></image>
-  <view class="empty-text">或许此刻你想{{'\n'}}上传点什么给你朋友呢~  </view>
+  <view class="empty-text">今天有什么想记录的呢~</view>
       </view>
     </view>
 
   </view>
 
   <!-- 朋友栏 -->
-  <view class="friend-bar-label">朋友列表</view>
+  <view class="friend-bar-label">我的小世界</view>
   <scroll-view class="friend-bar" scroll-x>
     <view
       class="friend-chip {{item.left ? 'left' : ''}}"
